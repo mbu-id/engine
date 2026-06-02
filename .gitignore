@@ -24,8 +24,6 @@ vendor/
 
 # Go module cache (should never be checked in)
 /pkg/
-*.mod
-*.sum
 
 # IDE/editor settings
 .vscode/
