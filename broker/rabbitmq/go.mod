@@ -3,7 +3,7 @@ module github.com/mbu-id/engine/broker/rabbitmq
 go 1.24.3
 
 require (
-	github.com/mbu-id/engine/common v0.0.19-dev
+	github.com/mbu-id/engine/common v0.1.0
 	github.com/rabbitmq/amqp091-go v1.10.0
 	go.uber.org/zap v1.27.0
 )
@@ -14,3 +14,4 @@ require (
 	go.uber.org/multierr v1.11.0 // indirect
 	golang.org/x/crypto v0.41.0 // indirect
 )
+

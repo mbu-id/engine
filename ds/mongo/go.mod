@@ -3,7 +3,7 @@ module github.com/mbu-id/engine/ds/mongo
 go 1.24.3
 
 require (
-	github.com/mbu-id/engine/common v0.0.19-dev
+	github.com/mbu-id/engine/common v0.1.0
 	go.mongodb.org/mongo-driver v1.17.4
 	go.uber.org/zap v1.27.0
 	golang.org/x/net v0.43.0
@@ -25,3 +25,4 @@ require (
 	golang.org/x/sync v0.16.0 // indirect
 	golang.org/x/text v0.28.0 // indirect
 )
+

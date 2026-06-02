@@ -5,8 +5,8 @@ go 1.24.3
 require (
 	github.com/gomodule/redigo v1.9.2
 	github.com/gorilla/websocket v1.5.3
-	github.com/mbu-id/engine/broker/rabbitmq v0.0.19-dev
-	github.com/mbu-id/engine/common v0.0.19-dev
+	github.com/mbu-id/engine/broker/rabbitmq v0.1.0
+	github.com/mbu-id/engine/common v0.1.0
 	github.com/rabbitmq/amqp091-go v1.10.0
 	go.uber.org/zap v1.27.0
 )
@@ -17,7 +17,3 @@ require (
 	golang.org/x/crypto v0.41.0 // indirect
 )
 
-replace (
-	github.com/mbu-id/engine/broker/rabbitmq => ../../broker/rabbitmq
-	github.com/mbu-id/engine/common => ../../common
-)

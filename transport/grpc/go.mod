@@ -3,8 +3,8 @@ module github.com/mbu-id/engine/transport/grpc
 go 1.24.3
 
 require (
-	github.com/mbu-id/engine/common v0.0.19-dev
-	github.com/mbu-id/engine/ds/redis v0.0.19-dev
+	github.com/mbu-id/engine/common v0.1.0
+	github.com/mbu-id/engine/ds/redis v0.1.0
 	go.uber.org/zap v1.27.0
 	google.golang.org/grpc v1.74.2
 	google.golang.org/protobuf v1.36.7
@@ -22,3 +22,4 @@ require (
 	golang.org/x/text v0.28.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20250811230008-5f3141c8851a // indirect
 )
+

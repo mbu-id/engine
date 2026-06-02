@@ -3,7 +3,8 @@ module github.com/mbu-id/engine/ds/postgres
 go 1.24.3
 
 require (
-	github.com/mbu-id/engine/common v0.0.19-dev
+	github.com/lib/pq v1.12.3
+	github.com/mbu-id/engine/common v0.1.0
 	github.com/uptrace/bun v1.2.15
 	github.com/uptrace/bun/dialect/pgdialect v1.2.15
 	github.com/uptrace/bun/driver/pgdriver v1.2.15
@@ -24,3 +25,4 @@ require (
 	golang.org/x/sys v0.35.0 // indirect
 	mellium.im/sasl v0.3.2 // indirect
 )
+
