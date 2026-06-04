@@ -19,12 +19,16 @@ type TokenPair struct {
 }
 
 type SessionClaims struct {
-	UserID      string   `json:"user_id"`
-	Username    string   `json:"username"`
-	DisplayName string   `json:"display_name"`
-	Email       string   `json:"email"`
-	Permissions []string `json:"permission"`
-	Type        string   `json:"type"`
+	UserID       string   `json:"user_id"`
+	Username     string   `json:"username"`
+	DisplayName  string   `json:"display_name"`
+	Email        string   `json:"email"`
+	CompanyID    string   `json:"company_id"`
+	BranchID     string   `json:"branch_id"`
+	DepartmentID string   `json:"department_id"`
+	RoleID       string   `json:"role_id"`
+	Permissions  []string `json:"permission"`
+	Type         string   `json:"type"`
 	jwt.RegisteredClaims
 }
 
@@ -123,6 +127,18 @@ func TokenDecode(tokenStr string) (jwt.Claims, error) {
 			}
 			if sid, ok := mc["sid"].(string); ok {
 				base.ID = sid
+			}
+			if cid, ok := mc["company_id"].(string); ok {
+				base.CompanyID = cid
+			}
+			if bid, ok := mc["branch_id"].(string); ok {
+				base.BranchID = bid
+			}
+			if did, ok := mc["department_id"].(string); ok {
+				base.DepartmentID = did
+			}
+			if rid, ok := mc["role_id"].(string); ok {
+				base.RoleID = rid
 			}
 		}
 	}
