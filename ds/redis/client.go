@@ -35,6 +35,20 @@ func (r *Redis) Save(key string, value any) error {
 	return err
 }
 
+// SaveExpire marshals 'value' and stores with TTL in seconds using SETEX.
+func (r *Redis) SaveExpire(key string, value any, ttl int) error {
+	data, err := json.Marshal(value)
+	if err != nil {
+		return err
+	}
+
+	conn := r.Pool.Get()
+	defer conn.Close()
+
+	_, err = conn.Do("SETEX", r.key(key), ttl, data)
+	return err
+}
+
 // Read retrieves the JSON value from Redis under the key and unmarshals into 'out'.
 func (r *Redis) Read(key string, out any) error {
 	conn := r.Pool.Get()

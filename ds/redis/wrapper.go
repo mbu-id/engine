@@ -56,16 +56,31 @@ func GetPool() *redis.Pool {
 
 // Save stores value under the given key in global defaultCache instance, logs the operation.
 func Save(ctx context.Context, key string, value any) error {
+	return saveTTL(ctx, key, value, 0)
+}
+
+// SaveExpire stores value under the given key with TTL (seconds). Logs the operation.
+func SaveExpire(ctx context.Context, key string, value any, ttl int) error {
+	return saveTTL(ctx, key, value, ttl)
+}
+
+func saveTTL(ctx context.Context, key string, value any, ttl int) error {
 	if cache == nil {
 		return ErrNotInitialized()
 	}
 
 	started := time.Now()
-	err := cache.Save(key, value)
+	var err error
+	if ttl > 0 {
+		err = cache.SaveExpire(key, value, ttl)
+	} else {
+		err = cache.Save(key, value)
+	}
 
 	cache.Logger.Info("RED/QUERY",
 		zap.String("action", "save"),
 		zap.String("key", key),
+		zap.Int("ttl", ttl),
 		zap.Duration("duration", time.Since(started)),
 		zap.String("request_id", common.GetContextRequestID(ctx)),
 		zap.Error(err),
