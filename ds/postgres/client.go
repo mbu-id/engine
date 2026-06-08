@@ -15,6 +15,7 @@ type Config struct {
 	Username   string // Database username
 	Password   string // Database password
 	Database   string // Database name
+	SSLMode    string // SSL mode (disable, require, verify-full, etc.)
 	Datasource string // Full DSN string (overrides Server/Username/Password/Database)
 }
 

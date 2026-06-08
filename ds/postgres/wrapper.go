@@ -38,9 +38,14 @@ func ConfigDefault(db string) *Config {
 		Database: db,
 	}
 
+	c.SSLMode = os.Getenv("POSTGRES_SSLMODE")
+	if c.SSLMode == "" {
+		c.SSLMode = "disable"
+	}
+
 	c.Datasource = fmt.Sprintf(
-		"postgres://%s:%s@%s/%s?sslmode=disable",
-		c.Username, c.Password, c.Server, c.Database,
+		"postgres://%s:%s@%s/%s?sslmode=%s",
+		c.Username, c.Password, c.Server, c.Database, c.SSLMode,
 	)
 
 	return c
