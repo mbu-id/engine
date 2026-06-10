@@ -8,6 +8,7 @@ import (
 	"os"
 	"reflect"
 	"runtime"
+	"sort"
 	"strings"
 	"time"
 
@@ -25,6 +26,8 @@ type RestServer struct {
 	Config *Config
 	Log    *zap.Logger
 	srv    *http.Server
+
+	permissions map[string]struct{}
 }
 
 type HandlerFunc func(*Context) error
@@ -91,9 +94,10 @@ func NewServer(cfg *Config, logger *zap.Logger, register func(*RestServer)) *Res
 	registerDefaultRoutes(r)
 
 	srv := &RestServer{
-		Router: r,
-		Config: cfg,
-		Log:    logger,
+		Router:      r,
+		Config:      cfg,
+		Log:         logger,
+		permissions: make(map[string]struct{}),
 	}
 
 	// Register application routes
@@ -206,12 +210,27 @@ func (s *RestServer) WithAuth(requireAuth bool, roles ...string) []func(http.Han
 }
 
 func (s *RestServer) Restricted(permission ...string) []func(http.Handler) http.Handler {
+	// Collect for auto-registration
+	for _, p := range permission {
+		s.permissions[p] = struct{}{}
+	}
+
 	mws := []func(http.Handler) http.Handler{}
 	mws = append(mws, JWTAuthMiddleware())
 	if len(permission) > 0 {
 		mws = append(mws, RequirePermission(permission[0]))
 	}
 	return mws
+}
+
+// RegisteredPermissions returns all permission slugs collected via Restricted() during route registration.
+func (s *RestServer) RegisteredPermissions() []string {
+	perms := make([]string, 0, len(s.permissions))
+	for p := range s.permissions {
+		perms = append(perms, p)
+	}
+	sort.Strings(perms)
+	return perms
 }
 
 // Registers built-in system routes

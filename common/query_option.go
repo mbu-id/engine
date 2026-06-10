@@ -3,7 +3,7 @@ package common
 import "strings"
 
 type QueryOption struct {
-	Limit      int64    `query:"limit"`
+	Limit      int64    `query:"per_page"`
 	Page       int64    `query:"page"`
 	Search     string   `query:"search"`
 	OrderBy    string   `query:"order_by"`
