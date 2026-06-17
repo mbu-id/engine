@@ -117,6 +117,9 @@ func (r *BaseRepository[T]) FindAll(opts *common.QueryOption, customQuery Custom
 
 	q := r.DB.NewSelect().Model(&result)
 
+	if opts == nil {
+		opts = &common.QueryOption{}
+	}
 	if opts.Search != "" && len(r.searchFields) > 0 {
 		FilterSearch(q, opts.Search, r.searchFields...)
 	}

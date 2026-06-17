@@ -24,8 +24,9 @@ type SessionClaims struct {
 	DisplayName  string   `json:"display_name"`
 	Email        string   `json:"email"`
 	CompanyID    string   `json:"company_id"`
-	BranchID     string   `json:"branch_id"`
-	DepartmentID string   `json:"department_id"`
+	BranchID        string   `json:"branch_id"`
+	BranchRegionID  string   `json:"branch_region_id"`
+	DepartmentID    string   `json:"department_id"`
 	RoleID       string   `json:"role_id"`
 	Permissions  []string `json:"permission"`
 	Type         string   `json:"type"`
@@ -133,6 +134,9 @@ func TokenDecode(tokenStr string) (jwt.Claims, error) {
 			}
 			if bid, ok := mc["branch_id"].(string); ok {
 				base.BranchID = bid
+			}
+			if brid, ok := mc["branch_region_id"].(string); ok {
+				base.BranchRegionID = brid
 			}
 			if did, ok := mc["department_id"].(string); ok {
 				base.DepartmentID = did
