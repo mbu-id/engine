@@ -19,17 +19,17 @@ type TokenPair struct {
 }
 
 type SessionClaims struct {
-	UserID       string   `json:"user_id"`
-	Username     string   `json:"username"`
-	DisplayName  string   `json:"display_name"`
-	Email        string   `json:"email"`
-	CompanyID    string   `json:"company_id"`
-	BranchID        string   `json:"branch_id"`
-	BranchRegionID  string   `json:"branch_region_id"`
-	DepartmentID    string   `json:"department_id"`
-	RoleID       string   `json:"role_id"`
-	Permissions  []string `json:"permission"`
-	Type         string   `json:"type"`
+	UserID         string   `json:"user_id"`
+	Username       string   `json:"username"`
+	DisplayName    string   `json:"display_name"`
+	Email          string   `json:"email"`
+	CompanyID      string   `json:"company_id"`
+	BranchID       string   `json:"branch_id"`
+	BranchRegionID string   `json:"branch_region_id"`
+	DepartmentID   string   `json:"department_id"`
+	RoleID         string   `json:"role_id"`
+	Permissions    []string `json:"permission"`
+	Type           string   `json:"type"`
 	jwt.RegisteredClaims
 }
 
