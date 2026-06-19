@@ -3,8 +3,22 @@ package common
 import (
 	"math"
 
+	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 )
+
+// UUIDPtr parses s into *uuid.UUID. Returns nil if s is empty.
+// Panics if s is non-empty but invalid (use MustParse semantics).
+func UUIDPtr(s string) *uuid.UUID {
+	if s == "" {
+		return nil
+	}
+	u := uuid.MustParse(s)
+	return &u
+}
+
+// ToPtr returns a pointer to v. Generic utility for any type.
+func ToPtr[T any](v T) *T { return &v }
 
 // HashPassword hashes the plain password
 func HashPassword(password string) (string, error) {
