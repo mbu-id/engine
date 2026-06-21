@@ -218,7 +218,7 @@ func (s *RestServer) Restricted(permission ...string) []func(http.Handler) http.
 	mws := []func(http.Handler) http.Handler{}
 	mws = append(mws, JWTAuthMiddleware())
 	if len(permission) > 0 {
-		mws = append(mws, RequirePermission(permission[0]))
+		mws = append(mws, RequireAnyPermission(permission...))
 	}
 	return mws
 }

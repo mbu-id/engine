@@ -185,6 +185,37 @@ func getSession(ctx context.Context) (*SessionClaims, error) {
 	return nil, errors.New("invalid session type")
 }
 
+// ValidTokenAnyPermission returns true if the context's session has ANY of the given perms.
+// Wildcards supported: "*" (superadmin), "prefix.*" (all under prefix).
+// Empty perms = no restriction (all authenticated users pass).
+// Empty user perms = superadmin (grants everything).
+func ValidTokenAnyPermission(ctx context.Context, perms ...string) bool {
+	if len(perms) == 0 {
+		return true
+	}
+	claim, err := getSession(ctx)
+	if err != nil {
+		return false
+	}
+	if len(claim.Permissions) == 0 {
+		return true
+	}
+	for _, req := range perms {
+		for _, p := range claim.Permissions {
+			if p == "*" || p == req {
+				return true
+			}
+			if strings.HasSuffix(p, ".*") {
+				prefix := strings.TrimSuffix(p, ".*")
+				if strings.HasPrefix(req, prefix+".") {
+					return true
+				}
+			}
+		}
+	}
+	return false
+}
+
 func ValidTokenPermission(ctx context.Context, perm string) bool {
 	claim, err := getSession(ctx)
 	if err != nil {

@@ -156,6 +156,25 @@ func JWTAuthMiddleware() func(http.Handler) http.Handler {
 	}
 }
 
+// RequireAnyPermission returns middleware that checks the session has ANY of the given perms.
+// Supports wildcards ("*", "prefix.*"). Pass no perms for auth-only (no perm check).
+func RequireAnyPermission(perms ...string) func(http.Handler) http.Handler {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if !common.ValidTokenAnyPermission(r.Context(), perms...) {
+				ctx := &Context{
+					Context:  r.Context(),
+					Request:  r,
+					Response: w,
+				}
+				ctx.Error(http.StatusForbidden, MsgForbidden, nil)
+				return
+			}
+			next.ServeHTTP(w, r)
+		})
+	}
+}
+
 func RequirePermission(perm string) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
