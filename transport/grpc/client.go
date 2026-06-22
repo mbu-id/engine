@@ -59,6 +59,9 @@ func NewClient(ctx context.Context, serviceName string) (*Client, error) {
 		return nil, err
 	}
 
+	// Force eager connection so PreWarm callers actually establish TCP.
+	conn.Connect()
+
 	return &Client{
 		conn:   conn,
 		target: target,
