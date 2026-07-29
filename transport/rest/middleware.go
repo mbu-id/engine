@@ -31,6 +31,12 @@ func LoggingMiddleware(logger *zap.Logger) func(http.Handler) http.Handler {
 			start := time.Now()
 			reqID := common.GetContextRequestID(r.Context())
 
+			// skip logging for healthz
+			if r.URL.Path == "/healthz" {
+				next.ServeHTTP(w, r)
+				return
+			}
+
 			rec := &responseRecorder{
 				ResponseWriter: w,
 				statusCode:     http.StatusOK,
