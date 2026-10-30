@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"os"
-	"time"
 
 	"go.uber.org/zap"
 )
@@ -48,8 +47,11 @@ func ConfigDefault(prefix string) *Config {
 		Prefix:       prefix,
 		Exchange:     "engine.service",
 		ExchangeType: "topic",
-		Durable:      true,
-		QueueTTL:     30 * time.Second, DeadLetter: "engine.service.dlx",
+		Durable: true,
+		// QueueTTL=0: pesan TIDAK boleh expire saat consumer sempat down. Dengan
+		// TTL + DLX tanpa consumer, pesan yang expired hilang permanen — ini
+		// penyebab event approval hilang dan dokumen nyangkut.
+		QueueTTL: 0, DeadLetter: "engine.service.dlx",
 	}
 	c.Datasource = fmt.Sprintf("amqp://%s:%s@%s/", c.Username, c.Password, c.Server)
 	return c
